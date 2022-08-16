@@ -284,14 +284,14 @@ const Commande = ({ history }) => {
                     <tr>
                       <td class="left_t">{product.name}</td>
                       <td class="right_t">
-                        {product.price * product.quantity} F
+                        {product.price * product.quantity} {data.company.currency.symbol}
                       </td>
                     </tr>
                   ))}
                   <tr>
                     <td class="left_t">Expédition</td>
                     <td class="right_t">
-                      <b>{data.company.shipping_fee}F</b>
+                      <b>{data.company.shipping_fee} {data.company.currency.symbol}</b>
                     </td>
                   </tr>
                   <tr>
@@ -299,7 +299,7 @@ const Commande = ({ history }) => {
                       <b>TOTAL</b>
                     </td>
                     <td class="right_t product-price1">
-                      <b>{prix + data.company.shipping_fee} F</b>
+                      <b>{prix + data.company.shipping_fee} {data.company.currency.symbol}</b>
                     </td>
                   </tr>
                 </table>
@@ -314,20 +314,6 @@ const Commande = ({ history }) => {
                         />
                       </div>
                     )}
-                    {/* {data.company.payment_modes.paypal && (
-                      <div
-                        class="table_p"
-                        onClick={() => setMode('Paypal')}
-                      >
-                        <img
-                          src="images/visa (1).png"
-                          alt=""
-                          style={{ width: '35%' }}
-                          data-bs-toggle="collapse"
-                        />
-                      </div>
-                    )} */}
-                        
                     {/* {data.company.payment_modes.paypal && (
                       <div
                         class="table_p"

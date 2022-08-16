@@ -265,7 +265,7 @@ const Navigation = () => {
                       )) || (
                         <span className="border border-warning border-bottom-0 border-top-0 pagnier">
                           <button
-                            className="ron2"
+                            className="ron2 flot"
                             data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop"
                           >
@@ -273,7 +273,7 @@ const Navigation = () => {
                           </button>{' '}
                           or{' '}
                           <button
-                            className="nav_ron2"
+                            className="nav_ron2 flot"
                             data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop1"
                           >
@@ -282,7 +282,7 @@ const Navigation = () => {
                         </span>
                       ))) || (
                       <span className="border border-warning border-bottom-0 border-top-0 pagnier">
-                        <button className="nav_ron2" onClick={deconnexion}>
+                        <button className="nav_ron2 flot" onClick={deconnexion}>
                           Deconexion
                         </button>
                       </span>

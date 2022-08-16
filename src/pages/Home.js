@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom"
 import LoadingInit1 from '../components/Loading/LoadingInit1';
 
 import { addProductcart, addtotalcart, setCollections, setCurent, setProduct, setProducts, setquantutycart } from '../store/DataSlice';
-import Produit from './Produit';
 
 
 const Home = () => {
@@ -51,14 +50,13 @@ const Home = () => {
             .then((res) => {
                 
                 for (let j = 0; j < res.data.data.length; j++) {
-
-                    
                     total_collection.push(res.data.data[j]);
-
                 }
-                
                 //setCollection(total_collection)
-                dispatch(setCollections(total_collection))
+                if(res.data.meta.last_page===1)
+                {
+                    dispatch(setCollections(total_collection))
+                }
                 dispatch(setCurent(total_collection[0].id))
                 //console.log("change 1"+data1.curent)
                 ProduitCollections(total_collection[0].id)
@@ -227,7 +225,7 @@ const Home = () => {
                         <span className="border ron titre" style={{ marginTop: '100px' }}>Colections</span>
                         <div style={{ height: '20px' }}>
                         </div>
-                        <ul className='overflows'>
+                        <ul className='overflows' style={{paddingLeft: '0px'}}>
                             <div style={{height: '400px'}}>    
                                 {collections
                                     .filter((collection) => collection.name.includes(rech_c))
@@ -252,7 +250,7 @@ const Home = () => {
                             <div className="border produit">
                                 <div>
                                     <NavLink to={'/produit/'+produit.id} onClick={() => dispatch(setProduct(produit))}>
-                                        <div style={{ height: '150px' }}>
+                                        <div style={{ height: '220px' }}>
                                             <div style={{ position: 'relative' }}>
                                                 <div style={{ position: 'absolute', top: 0 }} className="product-preview position-absolute">
                                                     {produit.medias.slice(0, 1).map(image => (
@@ -264,9 +262,8 @@ const Home = () => {
                                     </NavLink>
                                 </div>
                                 <div style={{ marginTop: '20px' }}>
-                                    <p className="product-category">categorie</p>
                                     <h3 className="product-name"><NavLink to='/Produit' onClick={() => dispatch(setProduct(produit))} className="ron3">{produit.name}</NavLink></h3>
-                                    <h4 className="product-price">{produit.price} F</h4>
+                                    <h4 className="product-price">{produit.price} {data1.company.currency.symbol}</h4>
                                     <div>
                                         <NavLink to={'/produit/'+produit.id} onClick={() => dispatch(setProduct(produit))}>
                                             <button className="btn btn-success button">voire</button>

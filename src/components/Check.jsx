@@ -23,7 +23,7 @@ async function getCompany() {
       try {
         //dispatch(setLogin("company"));  
         axios
-          .get(data.api + "companies/details/430")// /byurl?url=" + domaine )
+          .get(data.api + "companies/details/2")// /byurl?url=" + domaine )
           .then((response) => {
             console.log( "company" + data.company)
               if (response.status === 200) {

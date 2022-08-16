@@ -82,7 +82,7 @@ const Panier = () => {
  
                                          {/* <!-- Price --> */}
                                          <p class="text-start text-md-center">
-                                         <strong>{product.price}</strong>
+                                         <strong>{product.price} {data.company.currency.symbol}</strong>
                                          </p>
                                          {/* <!-- Price --> */}
                                      </div>
@@ -132,11 +132,11 @@ const Panier = () => {
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                 Produits
-                                <span>{prix}</span>
+                                <span>{prix} {data.company.currency.symbol}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Livraison
-                                <span>{data.company.shipping_fee}</span>
+                                <span>{data.company.shipping_fee} {data.company.currency.symbol}</span>
                             </li>
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
@@ -146,7 +146,7 @@ const Panier = () => {
                                     <p class="mb-0">(TVA incluse)</p>
                                 </strong>
                                 </div>
-                                <span><strong>{prix + data.company.shipping_fee}</strong></span>
+                                <span><strong>{prix + data.company.shipping_fee} {data.company.currency.symbol}</strong></span>
                             </li>
                             </ul>
                             {(!isAuthenticated && (

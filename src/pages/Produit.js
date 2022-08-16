@@ -93,7 +93,7 @@ const Produit = (id) => {
                 <div className="main">
                     <div className="titre_p d1 overflows" style={{}} >
                         {data.product.medias.map(image => (
-                            <div className="d2">
+                            <div className="d2 flot">
                                 <div style={{height: '5px'}}>
                                 </div>
                                 <img src={image.link} alt="" className="imge1" id={image.link} onClick={(e) => Image(e.target.id)}/>
@@ -133,7 +133,7 @@ const Produit = (id) => {
                                 <p className="" style={{margin: '0px', marginLeft: '20px'}}> </p>
                             </div>
                             <div className="d">
-                                <p className="product-price1" style={{textAlign: 'left'}}>{data.product.price} F</p>
+                                <p className="product-price1" style={{textAlign: 'left'}}>{data.product.price} {data.company.currency.symbol}</p>
                                 <span style={{marginLeft: '30px' }}>Stock:a {data.product.stocks}</span>
                             </div>
                             <div className='overflows' style={{height: '200px', marginBottom: '20px'}}>

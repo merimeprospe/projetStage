@@ -294,14 +294,33 @@
 /* .modal-backdrop{
     z-index: 1029 !important;
 } */
+.flot{
+    transition: transform 0.5s;
+    border-radius: 5%;
+    margin-top: 4px;
+    border: #474644;
+    box-shadow: 0 5px 5px 0 rgba(222, 222, 222, 0.5);
+}
+.flot:hover{
+    transform: translateY(-9%);
+}
 .list{
     list-style: none;
+    transition: transform 0.5s;
+    border-radius: 5%;
+    margin-top: 4px;
+    border: #474644;
+    box-shadow: 0 5px 5px 0 rgba(222, 222, 222, 0.5);
+}
+.list:hover{
+    transform: translateY(-9%);
 }
 .but_coll.active a{
-    
     color: orange;
-    box-shadow: 2px 2px 2px 2px;
+    border-radius: 5%;
+    box-shadow: 0 5px 10px 0 rgba(222, 222, 222, 0.5);
     padding: 5px;
+    border: #474644;
     margin-top: 0px;
 }
 
@@ -530,9 +549,11 @@ a:hover{
 }
 .imge{
     width: 265px;
-    height: 170px;
+    height: 235px;
     margin-left: 0px;
     z-index: 1;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
 }
 .imge1{
     width: 170px;
@@ -607,8 +628,11 @@ a:hover{
 }
 .produit{
     width: 265px;
-    height: 350px;
+    height: 380px;
     transition: transform 0.5s;
+    border-radius: 5%;
+    border: #1f1e1e;
+    box-shadow: 0 5px 10px 0 rgba(222, 222, 222, 0.5);
 }
 .produit:hover{
     transform: translateY(-2%);
@@ -1194,10 +1218,16 @@ a:hover{
         width: 200px;
         height: 170px;
         margin-left: 0px;
+        border-top-left-radius: 5%;
+        border-top-right-radius: 5%;
     }
     .produit{
         width: 200px;
-        margin: auto;  
+        margin: auto;
+        transition: transform 0.5s;
+        border-radius: 5%;
+        border: #474644;
+        box-shadow: 0 5px 10px 0 rgba(222, 222, 222, 0.5); 
     }
     .button{
         color: orange; 
@@ -1270,10 +1300,16 @@ a:hover{
         width: 150px;
         height: 170px;
         margin-left: 0px;
+        border-top-left-radius: 5%;
+        border-top-right-radius: 5%;
     }
     .produit{
         width: 150px;
-        margin: auto;  
+        margin: auto;
+        transition: transform 0.5s;  
+        border-radius: 5%;
+        border: #474644;
+        box-shadow: 0 5px 10px 0 rgba(222, 222, 222, 0.5);
     }
     .button{
         color: orange; 
