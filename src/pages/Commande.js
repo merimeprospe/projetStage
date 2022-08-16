@@ -327,6 +327,20 @@ const Commande = ({ history }) => {
                         />
                       </div>
                     )} */}
+                        
+                    {/* {data.company.payment_modes.paypal && (
+                      <div
+                        class="table_p"
+                        onClick={() => setMode('Paypal')}
+                      >
+                        <img
+                          src="images/visa (1).png"
+                          alt=""
+                          style={{ width: '35%' }}
+                          data-bs-toggle="collapse"
+                        />
+                      </div>
+                    )} */}
                     {data.company.payment_modes.mobilemoney && (
                       <>
                         <div
