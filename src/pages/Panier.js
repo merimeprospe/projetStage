@@ -33,6 +33,9 @@ const Panier = () => {
                                 <h5 class="mb-0">Panier - {data.cart.products.total} articles</h5>
                             </div>
                             <div class="card-body overflows" style={{height: '420px'}}>
+                                {data.cart.products.product.length === 0 &&(
+                                    <p className='panier'>PANIER VIDE</p>
+                                )}
                                 {data.cart.products.product.map( (product , index) => (
                                      prix = prix + product.price*product.quantity,
                                      <>
@@ -40,9 +43,14 @@ const Panier = () => {
                                      <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
                                          {/* <!-- Image --> */}
                                          <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                            {product.image.slice(0, 1).map(image => (
+                                            {product.image.length === 0 &&(
+                                                <img  class="w-100" alt="Blue Jeans Jacket" style={{height: '150px'}} src='images\productDefaut.png' />
+                                            )||(
+                                                <img class="w-100" alt="Blue Jeans Jacket" style={{height: '150px'}} src={product.image[0].link} />
+                                            )}
+                                            {/* {product.image.slice(0, 1).map(image => (
                                                 <img src={image.link}class="w-100" alt="Blue Jeans Jacket" style={{height: '150px'}} />
-                                            ))} 
+                                            ))}  */}
                                             <a href="#!">
                                                 <div class="mask" style={{backgroundColor: 'rgba(251, 251, 251, 0.2)'}}></div>
                                             </a>

@@ -93,11 +93,6 @@ const Commande = ({ history }) => {
   };
   function payement(data1){
     if(mode ==='mobilemoney'){
-      let header={
-        Authorization: "Bearer " + data1.access_token,
-        Accept: "application/json",
-        ContentType: "application/json"
-      }
       let body={
         phoneService: service,
         amount: data1.total,
@@ -171,6 +166,7 @@ const Commande = ({ history }) => {
   //console.log('data.company',data.company.currency.code)
   //console.log('jjjjjjjjjjjjjjjjjjjjjjj',data.commande)
   if (localStorage.miniblogToken) {
+    
     return (
       
       <div>
@@ -308,7 +304,7 @@ const Commande = ({ history }) => {
                     {data.company.payment_modes.cash && (
                       <div class="table_p" onClick={() => setMode('Cash')}>
                         <img
-                          src="images/42589.jpg"
+                          src="images/cash.png"
                           alt=""
                           style={{ width: '25%' }}
                         />
@@ -367,9 +363,9 @@ const Commande = ({ history }) => {
                         onClick={() => setMode('card')}
                       >
                         <img
-                          src="images/banque1.jpg"
+                          src="images/banque .jpg"
                           alt=""
-                          style={{ width: '25%' }}
+                          style={{ width: '28%' }}
                           data-bs-toggle="collapse"
                         />
                       </div>

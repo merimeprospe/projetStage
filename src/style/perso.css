@@ -1,0 +1,28 @@
+.liSearch{
+    list-style-type: none;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: left;
+ }
+
+.liSearch:hover {
+    background-color: rgba(235, 235, 235, 0.582);
+    border-radius: 5px;
+ }
+
+.liSearch a{
+    color: #000;
+    text-decoration:  none;
+    padding: 10px 0px;
+}
+.liSearch a:hover{
+    color: orange;
+    text-decoration:  none;
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+ 
+ 

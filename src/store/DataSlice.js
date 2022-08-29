@@ -175,7 +175,9 @@ const dataSlice = createSlice({
             state.cart.products.total++
         },
         setProduct: (state, action) => {
+            console.log("bonjoucscSCscCScSCc")
             state.product = action.payload
+            console.log(state.product)
         },
         setCollections: (state, action) => {
             state.collections = action.payload

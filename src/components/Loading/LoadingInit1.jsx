@@ -20,9 +20,9 @@ const LoadingInit1 = () => {
                 </div>
             </section >
             <div class="d-flex justify-content-center" style={{marginTop: '50px'}}>
-            <div class="spinner-grow text-warning m-7" style={{width: '10rem', height: '10rem'}} role="status">
-                {/* <span class="visually-hidden">Loading...</span> */}
-            </div>
+                <div class="spinner-border text-warning" role="status" style={{width: '6rem', height: '6rem'}}>
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
         </div>
     );

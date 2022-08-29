@@ -44,7 +44,6 @@ const Home = () => {
     }
     async function GetCollections() {
         total_collection = [];
-
         axios
             .get(data1.api + "companies/" + data.id + "/collections")
             .then((res) => {
@@ -200,11 +199,11 @@ const Home = () => {
             <section className="section container-fluid">
                 <div className="row">
                     <div>
-                        <p className="h1 tetle"><b style={{ color: 'white' }}> BIENVENUE CHEZ <br /> <span style={{ color: 'orange' }} className="pol">{data.name}</span></b> </p>
+                        <p className="h1 tetle"><b style={{ color: 'orange' }}> BIENVENUE CHEZ <br /> <span style={{ color: 'orange' }} className="pol">{data.name}</span></b> </p>
                     </div>
                 </div>
             </section>
-            <section className="section2 container-fluid">
+            <section className="section2 container-fluid" style={{position: 'relative'}} >
             </section>
             <section className="border" style={{ height: '50px' }}>
                 <div className="container p-1">
@@ -253,22 +252,27 @@ const Home = () => {
                                         <div style={{ height: '220px' }}>
                                             <div style={{ position: 'relative' }}>
                                                 <div style={{ position: 'absolute', top: 0 }} className="product-preview position-absolute">
-                                                    {produit.medias.slice(0, 1).map(image => (
+                                                    {produit.medias === 0 &&(
+                                                        <img src='images\productDefaut.png' alt="" className="imge" />
+                                                    )||(
+                                                        <img src={produit.medias[0].link} alt="" className="imge" />
+                                                    )}
+                                                    {/* {produit.medias.slice(0, 1).map(image => (
                                                         <img src={image.link} alt="" className="imge" />
-                                                    ))}
+                                                    ))} */}
                                                 </div>
                                             </div>
                                         </div>
                                     </NavLink>
                                 </div>
                                 <div style={{ marginTop: '20px' }}>
-                                    <h3 className="product-name"><NavLink to='/Produit' onClick={() => dispatch(setProduct(produit))} className="ron3">{produit.name}</NavLink></h3>
+                                    <h3 className="product-name"><NavLink to={'/produit/'+produit.id} onClick={() => dispatch(setProduct(produit))} className="ron3">{produit.name}</NavLink></h3>
                                     <h4 className="product-price">{produit.price} {data1.company.currency.symbol}</h4>
                                     <div>
                                         <NavLink to={'/produit/'+produit.id} onClick={() => dispatch(setProduct(produit))}>
                                             <button className="btn btn-success button">voire</button>
                                         </NavLink>
-                                        <button className="productb btn btn-warning" onClick={() => panier(produit)}><i className="fa fa-shopping-cart"></i>panier</button>
+                                        <button className="productb btn btn-warning" onClick={() => panier(produit)}><i className="fa fa-shopping-cart"></i>Ajouter</button>
                                     </div>
                                 </div>
                             </div>

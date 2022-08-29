@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import LoadingInit from './Loading/LoadingInit'
 import Error404 from "./Errors/Error404";
-import { setCollections, setCompany, setLogin } from "../store/DataSlice";
+import { setCompany} from "../store/DataSlice";
 import axios from "axios";
 import Home from '../pages/Home';
 import Navigation from './Navigation';
@@ -14,7 +14,6 @@ import Panier from '../pages/Panier';
 export default function Check(){
   const data = useSelector((state)=>state.data);
   const dispatch = useDispatch();
-  let total_collection = []
 /*getter*/
 //.get(data.api + "companies/byurl?url=" + data.url)// /byurl?url=" + domaine )
 async function getCompany() {
@@ -23,7 +22,7 @@ async function getCompany() {
       try {
         //dispatch(setLogin("company"));  
         axios
-          .get(data.api + "companies/details/2")// /byurl?url=" + domaine )
+          .get(data.api + "companies/details/430")// /byurl?url=" + domaine )
           .then((response) => {
             console.log( "company" + data.company)
               if (response.status === 200) {

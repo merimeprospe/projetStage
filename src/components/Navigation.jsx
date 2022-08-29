@@ -2,8 +2,10 @@
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import React, { useContext, Fragment, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import Auth from '../contexts/Auth';
+import '../../src/style/perso.css';
 import { Login, logout, Register } from '../services/AuthAPI';
 import { setProduct, setProductsearch } from '../store/DataSlice';
 import HandleMessages from './HandleMessages';
@@ -14,22 +16,31 @@ const Navigation = () => {
   const data = useSelector((state) => state.data);
   const dispatch = useDispatch();
   const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
-  const [itemSearch, setItemSearch] = useState('');
+  const [itemSearch, setItemSearch] = useState(''); //new Boolean(1).valueOf()
   const [showSearchList, setShowSearchList] = useState(false);
   const [loader, setLoader] = useState(false);
   const [conten, setConten] = useState(false);
   const [loader1, setLoader1] = useState(true);
   const [MessageComponent, setMessageComponent] = useState(null);
+  const [isOkModal, setIsOkModal] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [user, setUser] = useState({
     company_id: data.company.id,
     fromApi: true,
   });
-  const [useRegistre, setUseRegistre] = useState({
-    //username: "",
-    //email:"",
-    //password: "",
-    //confirmpasseword: ""
+  window.document.addEventListener('click', (event) => {
+    setShowSearchList(false);
+    event.stopPropagation();
+  });
+  // window.document.addEventListener('keypress', (event) => {
+  //   if (event.keyCode === 13) {
+  //     event.stopPropagation();
+  //     recherche();
+  //     setShowSearchList(true);
+  //   }
+  // });
 
+  const [useRegistre, setUseRegistre] = useState({
     company_id: data.company.id,
     fromApi: true,
   });
@@ -80,10 +91,13 @@ const Navigation = () => {
     }
   };
   const handleSubmitRegister = async (event) => {
-    setLoader(true);
     event.preventDefault();
-
+    setLoader(true);
     try {
+      if (useRegistre.confirmpasseword != useRegistre.password) {
+        setIsError(true)
+        throw new Error('les mot de passe ne correspondent pas');
+      }
       axios
         .post(data.api + 'clients/register', useRegistre)
         .then((res) => (dispatch(setUserC(res.data)), setLoader(false)));
@@ -97,6 +111,7 @@ const Navigation = () => {
         />
       );
     } catch (error) {
+      console.log(error);
       //setLoader(false);
       setMessageComponent(
         <HandleMessages
@@ -110,9 +125,11 @@ const Navigation = () => {
   };
   function recherche() {
     if (itemSearch !== '') {
+      dispatch(setProductsearch([]));
       setConten(true);
       setLoader1(false);
-      axios
+      try {
+        axios
         .post(
           data.api +
             'companies/' +
@@ -122,16 +139,30 @@ const Navigation = () => {
         )
         .then(
           (res) => (
-            dispatch(setProductsearch(res.data)), setLoader1(true)
-            //setItemSearch('')
+            dispatch(setProductsearch(res.data)), setLoader1(true),
+            console.log('res.data',res.data.length)
           )
-        );
+        ).catch((err) => {
+          setMessageComponent(
+            <HandleMessages
+              message={err.message}
+              error={true}
+              setCompMess={setMessageComponent}
+            />
+          );
+          setLoader1(true)
+          setConten(false);
+        });
+      } catch (error) {
+        console.log(error)
+      }
+      
     } else {
       setConten(false);
       dispatch(setProductsearch([]));
     }
   }
-  console.log(data.productsearch);
+  
   return (
     <>
       <div className="navb">
@@ -173,56 +204,66 @@ const Navigation = () => {
                       aria-label="Search"
                       value={itemSearch}
                       onChange={(e) => setItemSearch(e.target.value)}
-                      onClick={() => (
-                        setShowSearchList(false), setConten(false)
+                      onClick={(e) => (
+                        e.stopPropagation()
+                        // setShowSearchList(false),
+                        // setConten(false)
                       )}
                     />
                     {showSearchList && (
                       <div className="style-search overflows">
+                         <div className="modal-header" style={{padding: '0.5rem 1rem', position: 'fixed', width: '250px'}}>
+                            <button
+                                  style={{right: '10px'}}
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                            ></button>
+                          </div>
                         {(!loader1 && <div className="chargement1"></div>) ||
                           (!conten && (
-                            <div className="info-search">
+                            <div className="info-search" style={{ marginTop: '20px'}}>
                               <img
-                                src="images/loupe.jpg"
+                                src="/images/loupe.jpg"
                                 alt=""
                                 style={{
                                   width: '100%',
-                                  height: '500px',
+                                  height: '270px',
                                   opacity: '20%',
                                 }}
                                 data-bs-toggle="collapse"
                               />
                             </div>
-                          )) || (
-                            <ul style={{ padding: '5px 10px' }}>
+                          )) || (data.productsearch.length > 0 &&( 
+                            <ul style={{ padding: '5px 10px',marginTop: '30px'}}>
                               {data.productsearch.map((produit) => (
-                                <NavLink
-                                  to={'/produit/' + produit.id}
-                                  onClick={() => (
-                                    dispatch(setProduct(produit)),
-                                    setShowSearchList(false)
-                                  )}
-                                >
-                                  <li
-                                    style={{
-                                      listStyleType: 'none',
-                                      borderBottom: '1px solid grey',
-                                      padding: '10px 3px',
-                                      cursor: 'pointer',
-                                      textDecoration: 'none',
-                                      textAlign: 'left',
+                                <Link
+                                    to={'/produit/' + produit.id}
+                                    onClick={() => {
+                                      dispatch(setProduct(produit));
+                                      setShowSearchList(false);
                                     }}
                                   >
-                                    <p
-                                      className="ron3"
-                                      style={{ marginBottom: '0px' }}
-                                    >
+                                    <li className="liSearch">
                                       {produit.name}
-                                    </p>
-                                  </li>
-                                </NavLink>
+                                    </li>
+                                </Link>
                               ))}
                             </ul>
+                          )) || (
+                            <div className="info-search" style={{ marginTop: '20px'}}>
+                              <img
+                                src="/images/loupe_nul.jpg"
+                                alt=""
+                                style={{
+                                  width: '100%',
+                                  height: '270px',
+                                  opacity: '50%',
+                                }}
+                                data-bs-toggle="collapse"
+                              />
+                            </div>
                           )}
                       </div>
                     )}
@@ -230,9 +271,10 @@ const Navigation = () => {
 
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       recherche();
-                      setShowSearchList(!showSearchList);
+                      setShowSearchList(true);
                     }}
                     className="btn btn-secondary navb3"
                   >
@@ -390,7 +432,7 @@ const Navigation = () => {
                               <button
                                 type="submit"
                                 className="btn btn-warning btn-block mb-4 right "
-                                data-bs-dismiss="modal"
+                                // data-bs-dismiss="modal"
                                 aria-label="Close"
                               >
                                 <span style={{ color: 'white' }}>
@@ -598,7 +640,7 @@ const Navigation = () => {
                               <button
                                 type="submit"
                                 className="btn btn-warning btn-block mb-4 right"
-                                data-bs-dismiss="modal"
+                                //data-bs-dismiss={ isError  && "modal"}
                               >
                                 <span style={{ color: 'white' }}>
                                   S'inscrire

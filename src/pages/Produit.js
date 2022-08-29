@@ -1,15 +1,29 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { NavLink } from 'react-router-dom';
-import { addProductcart, addtotalcart, setquantutycart, setquantutycart1 } from '../store/DataSlice';
+import { NavLink, useParams } from 'react-router-dom';
+import HandleMessages from '../components/HandleMessages';
+import { addProductcart, addtotalcart, setProduct, setquantutycart1 } from '../store/DataSlice';
 
-const Produit = (id) => {
+const Produit = () => {
+    
     const data = useSelector((state)=>state.data);
     const dispatch = useDispatch();
     const [k, setK] = useState(1)
+    const [id, setId] = useState(useParams().id)
+    const [messageComponent, setMessageComponent] = useState(1)
+    if(data.product===null)
+    {   
+        axios
+        .get(data.api + "companies/" + data.company.id +"/products/"+id)
+        .then((res) => (
+            dispatch(setProduct(res.data))
+             
+        ))
+    }
     function Image (id){
         var ProductImg = document.getElementById("image_produit");
-        var  SmallImg = document.getElementById(id);
+        var  SmallImg = document.getElementById(id);  
         ProductImg.src = SmallImg.src;
    }
     setTimeout(function(){
@@ -17,12 +31,12 @@ const Produit = (id) => {
       let desc = document.getElementById('desc')
       if(data.product.description === null)
       {
-        desc.innerHTML = 'pas de description'
+        desc.innerHTML = "<p><center style='margin-top: 70px; font-size: 125%; color: #aaa;'><b>pas de description</b><center></p>"
       }else{
         desc.innerHTML = data.product.description
       }
- }, 2000);
- function panier(pr){
+    }, 2000);
+    function panier(pr){
     let n = 0
     if(data.cart.products.total === 0){
         let p = {}
@@ -37,6 +51,13 @@ const Produit = (id) => {
         }] 
         dispatch(addProductcart(p))
         dispatch(addtotalcart())
+        setMessageComponent(
+            <HandleMessages
+              message={'nouveau produit ajouter'}
+              error={false}
+              setCompMess={setMessageComponent}
+            />
+          );
     }else{
         for(let i=0; i<data.cart.products.total; i++){
             if(data.cart.products.product[i].id === pr.id){
@@ -47,6 +68,13 @@ const Produit = (id) => {
                 }
                 console.log(p)
                 dispatch(setquantutycart1(p))
+                setMessageComponent(
+                    <HandleMessages
+                      message={pr.name+' '+'a été ajouter dans le pagnier'}
+                      error={false}
+                      setCompMess={setMessageComponent}
+                    />
+                  );
             }
         }
         if(n===0){
@@ -62,17 +90,27 @@ const Produit = (id) => {
             } 
             dispatch(addProductcart(p))
             dispatch(addtotalcart())
+            setMessageComponent(
+                <HandleMessages
+                  message={'nouveau produit ajouter'}
+                  error={false}
+                  setCompMess={setMessageComponent}
+                />
+              );
         }
+
     }
     setK(1)
-}
-   //data.product.medias[0].link console.log('data.product', data.product.medias[0].link)    
+    }
+   //data.product.medias[0].link console.log('data.product', data.product.medias[0].link) 
+    console.log("data.product00000000",data)   
     return (
         <div>
+            {messageComponent}
             <section className="section1 container-fluid">
                 <div className="row">
                     <div>
-                    <p className="h2 tetle1"><b style={{color: 'white', marginTop: '50px'}}> {data.product.name} </b> </p>
+                    <p className="h2 tetle1"><b style={{color: 'orange', marginTop: '50px'}}> {data.product.name} </b> </p>
                     </div>
                 </div>
             </section>
@@ -91,21 +129,43 @@ const Produit = (id) => {
             </section>
             <main>
                 <div className="main">
-                    <div className="titre_p d1 overflows" style={{}} >
-                        {data.product.medias.map(image => (
+                    <div className="titre_p d1 overflows">
+                        {
+                            data.product.medias.length > 0 ?
+                            <div className="d2 flot">
+                                <div style={{height: '5px'}}>
+                                </div>
+                                <img  alt="" className="imge1" id={data.product.medias[0].link} onClick={(e) => Image(e.target.id)} src={data.product.medias[0].link} />
+                            </div>
+                                :
+                            <div className="d2 flot">
+                                <div style={{height: '5px'}}>
+                                </div>
+                                <img alt="" className="imge1" src='/images/productDefaut.png'  />
+                            </div>
+                        }
+                        {/* {data.product.medias.map(image => (
                             <div className="d2 flot">
                                 <div style={{height: '5px'}}>
                                 </div>
                                 <img src={image.link} alt="" className="imge1" id={image.link} onClick={(e) => Image(e.target.id)}/>
                             </div>
-                        ))} 
+                        ))}  */}
                     </div>
                     <div className="bloc1" style={{width: '70%'}}>
-                        {data.product.medias.slice(0, 1).map(image => (
+                        <div className='imge2'>
+                        {
+                            data.product.medias.length > 0 ?
+                                <img  className="d-block w-100 imge2" alt="..." id="image_produit" src={data.product.medias[0].thumb} />
+                                :
+                                <img className="d-block w-100 imge2" alt="..." id="image_produit"  src='/images/productDefaut.png' />
+                        }
+                        </div> 
+                        {/* {data.product.medias.slice(0, 1).map(image => (
                             <div className='imge2'>
                                 <img src={image.thumb} className="d-block w-100 imge2" alt="..." id="image_produit" />
                             </div>
-                        ))} 
+                        ))} */}
                         
                         {/* <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel">
                             <div className="carousel-inner imge2">
