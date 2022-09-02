@@ -12,6 +12,7 @@ const Home = () => {
     const dispatch = useDispatch();
     let collections = data1.collections
     const data = data1.company
+    const [conten, setConten] = useState(false);
     let total_collection = []
     //const [collection, setCollection] = useState([]);
     //const [produits, setProduit] = useState([]);
@@ -85,7 +86,7 @@ const Home = () => {
 
     };
     function ProduitCollections(id) {
-
+        setConten(true)
         axios
             .get(data1.api + "companies/" + data.id + "/collections/" + id)
             .then((res) => {
@@ -94,11 +95,10 @@ const Home = () => {
                 dispatch(setProducts(res.data.products))
                 console.log('data.PRODUIT11111',res.data.products)
                 document.getElementById('cat-' + data1.curent)?.classList.remove("active");
-               dispatch(setCurent(id))
+                dispatch(setCurent(id))
                 //console.log("change 2"+data1.curent)
                 document.getElementById('cat-' + id)?.classList.add("active");
-                
-                
+                setConten(false)
             });
 
         axios
@@ -245,8 +245,8 @@ const Home = () => {
                         </ul>
                         
                     </div>
+                {(conten && <div style={{ margin:'auto'}}><div className="chargement2"></div></div>) ||
                     <div className="bloc row g-0" >
-                        {/* <!-- product --> */}
                         {produits.data.map(produit => (
                             <div className="border produit">
                                 <div>
@@ -280,6 +280,7 @@ const Home = () => {
                             </div>
                         ))}
                     </div>
+                }
                 </div>
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">

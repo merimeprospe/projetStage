@@ -281,6 +281,19 @@
     margin-top: 45%;
     margin-right: 31%;
 }
+.chargement2{
+    border: 3px solid orange;
+    border-radius: 50%;
+    border-top: 3px solid #ddd;
+    width: 90px;
+    height: 90px;
+    animation: spin 0.5s linear infinite;
+    padding: 10px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 @keyframes spin {
     100% {
         transform: rotate(360deg);

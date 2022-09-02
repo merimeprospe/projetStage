@@ -74,7 +74,7 @@ const Commande = ({ history }) => {
         headers
       )
       .then((res) => {
-        alert(res.status)
+       //alert(res.status)
         dispatch(setCommande(res))
         payement(res.data)
       }).catch((err) => {
