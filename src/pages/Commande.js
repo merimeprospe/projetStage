@@ -162,7 +162,7 @@ const Commande = ({ history }) => {
         />
       )
       setLoader(false)
-      //dispatch(setCart())
+      dispatch(setCart())
     }
   } 
   //console.log('data.company',data.company.currency.code)
