@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux/es/exports';
 import { NavLink } from 'react-router-dom'
 
 const Footer = () => {
-    const data = useSelector((state)=>state.data);
+    const data = useSelector((state)=>state);
     
     return (
         <div>

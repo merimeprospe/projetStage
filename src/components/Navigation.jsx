@@ -13,7 +13,7 @@ import { setUserC } from '../store/DataSlice';
 //import SearchList from './SearchList';
 
 const Navigation = () => {
-  const data = useSelector((state) => state.data);
+  const data = useSelector((state) => state);
   const dispatch = useDispatch();
   const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
   const [itemSearch, setItemSearch] = useState(''); //new Boolean(1).valueOf()
@@ -95,7 +95,7 @@ const Navigation = () => {
     setLoader(true);
     try {
       if (useRegistre.confirmpasseword != useRegistre.password) {
-        setIsError(true)
+        setIsError(true);
         throw new Error('les mot de passe ne correspondent pas');
       }
       axios
@@ -130,39 +130,40 @@ const Navigation = () => {
       setLoader1(false);
       try {
         axios
-        .post(
-          data.api +
-            'companies/' +
-            data.company.id +
-            '/products/search?q=' +
-            itemSearch
-        )
-        .then(
-          (res) => (
-            dispatch(setProductsearch(res.data)), setLoader1(true),
-            console.log('res.data',res.data.length)
+          .post(
+            data.api +
+              'companies/' +
+              data.company.id +
+              '/products/search?q=' +
+              itemSearch
           )
-        ).catch((err) => {
-          setMessageComponent(
-            <HandleMessages
-              message={err.message}
-              error={true}
-              setCompMess={setMessageComponent}
-            />
-          );
-          setLoader1(true)
-          setConten(false);
-        });
+          .then(
+            (res) => (
+              dispatch(setProductsearch(res.data)),
+              setLoader1(true),
+              console.log('res.data', res.data.length)
+            )
+          )
+          .catch((err) => {
+            setMessageComponent(
+              <HandleMessages
+                message={err.message}
+                error={true}
+                setCompMess={setMessageComponent}
+              />
+            );
+            setLoader1(true);
+            setConten(false);
+          });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-      
     } else {
       setConten(false);
       dispatch(setProductsearch([]));
     }
   }
-  
+
   return (
     <>
       <div className="navb">
@@ -204,26 +205,36 @@ const Navigation = () => {
                       aria-label="Search"
                       value={itemSearch}
                       onChange={(e) => setItemSearch(e.target.value)}
-                      onClick={(e) => (
+                      onClick={(e) =>
                         e.stopPropagation()
                         // setShowSearchList(false),
                         // setConten(false)
-                      )}
+                      }
                     />
                     {showSearchList && (
                       <div className="style-search overflows">
-                         <div className="modal-header" style={{padding: '0.5rem 1rem', position: 'fixed', width: '250px'}}>
-                            <button
-                                  style={{right: '10px'}}
-                                  type="button"
-                                  className="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                            ></button>
-                          </div>
+                        <div
+                          className="modal-header"
+                          style={{
+                            padding: '0.5rem 1rem',
+                            position: 'fixed',
+                            width: '250px',
+                          }}
+                        >
+                          <button
+                            style={{ right: '10px' }}
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
                         {(!loader1 && <div className="chargement1"></div>) ||
                           (!conten && (
-                            <div className="info-search" style={{ marginTop: '20px'}}>
+                            <div
+                              className="info-search"
+                              style={{ marginTop: '20px' }}
+                            >
                               <img
                                 src="/images/loupe.jpg"
                                 alt=""
@@ -235,24 +246,28 @@ const Navigation = () => {
                                 data-bs-toggle="collapse"
                               />
                             </div>
-                          )) || (data.productsearch.length > 0 &&( 
-                            <ul style={{ padding: '5px 10px',marginTop: '30px'}}>
+                          )) ||
+                          (data.productsearch.length > 0 && (
+                            <ul
+                              style={{ padding: '5px 10px', marginTop: '30px' }}
+                            >
                               {data.productsearch.map((produit) => (
                                 <Link
-                                    to={'/produit/' + produit.id}
-                                    onClick={() => {
-                                      dispatch(setProduct(produit));
-                                      setShowSearchList(false);
-                                    }}
-                                  >
-                                    <li className="liSearch">
-                                      {produit.name}
-                                    </li>
+                                  to={'/produit/' + produit.id}
+                                  onClick={() => {
+                                    dispatch(setProduct(produit));
+                                    setShowSearchList(false);
+                                  }}
+                                >
+                                  <li className="liSearch">{produit.name}</li>
                                 </Link>
                               ))}
                             </ul>
                           )) || (
-                            <div className="info-search" style={{ marginTop: '20px'}}>
+                            <div
+                              className="info-search"
+                              style={{ marginTop: '20px' }}
+                            >
                               <img
                                 src="/images/loupe_nul.jpg"
                                 alt=""

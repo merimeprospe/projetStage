@@ -2,15 +2,17 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { NavLink, useParams } from 'react-router-dom';
+import Error404 from '../components/Errors/Error404';
 import HandleMessages from '../components/HandleMessages';
+import LoadingInit1 from '../components/Loading/LoadingInit1';
 import { addProductcart, addtotalcart, setProduct, setquantutycart1 } from '../store/DataSlice';
 
 const Produit = () => {
     
-    const data = useSelector((state)=>state.data);
+    const data = useSelector((state)=>state);
     const dispatch = useDispatch();
     const [k, setK] = useState(1)
-    const [id, setId] = useState(useParams().id)
+    const id = useParams().id
     const [messageComponent, setMessageComponent] = useState(1)
     if(data.product===null)
     {   
@@ -104,7 +106,7 @@ const Produit = () => {
     }
    //data.product.medias[0].link console.log('data.product', data.product.medias[0].link) 
     console.log("data.product00000000",data)   
-    return (
+    return data.product === null? <LoadingInit1/> : data.product === 404 ? <Error404/>  : (
         <div>
             {messageComponent}
             <section className="section1 container-fluid">

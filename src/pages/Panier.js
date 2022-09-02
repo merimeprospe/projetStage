@@ -5,7 +5,7 @@ import Auth from '../contexts/Auth';
 import { deletproductcart, setquantutycart, setRemovquantutycart } from '../store/DataSlice';
 
 const Panier = () => {
-    const data = useSelector((state)=>state.data);
+    const data = useSelector((state)=>state);
     const dispatch = useDispatch();
     let prix = 0
     const {isAuthenticated, setIsAuthenticated} = useContext(Auth); 

@@ -12,31 +12,38 @@ import Commande from '../pages/Commande';
 import Panier from '../pages/Panier';
 
 export default function Check(){
-  const data = useSelector((state)=>state.data);
+  const data = useSelector((state)=>state);
   const dispatch = useDispatch();
 /*getter*/
 //.get(data.api + "companies/byurl?url=" + data.url)// /byurl?url=" + domaine )
 async function getCompany() {
  // console.log( "company" + data.company)
-    if (data.company === null ) {
+    if (data.company === null || data.company === 404 ) {
       try {
-        //dispatch(setLogin("company"));  
+
+        //dispatch(setLogin("company"));  https://api.genuka.com/2021-10/companies/byurl?url=http://localhost:3000/
+       
         axios
-          .get(data.api + "companies/details/430")// /byurl?url=" + domaine )
+          .get(data.api + "companies/details/430" )//")// /details/430")
           .then((response) => {
-            console.log( "company" + data.company)
+            //console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP')
               if (response.status === 200) {
+
+               // console.log("company = ",response.data)
                   dispatch(setCompany(response.data))
+
               }
               else {
                 
                 
-                data.company.id = -404
+                data.company = 404
               }
         
         }).catch((err) => {
-          dispatch(setCompany(404))
-          console.log('error',data.company)
+          if(err.message==='Network Error')
+          {
+            dispatch(setCompany(404))
+          }
       });
       } catch (error) {
         //console.log('error',error)

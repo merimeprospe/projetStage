@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 //import axios from "axios";
 const initialState = {
     company: null,
@@ -85,7 +85,6 @@ const initialState = {
         state: 0
      }
 };
-
 const dataSlice = createSlice({
     name: "data",
     initialState: initialState,
@@ -244,8 +243,5 @@ export const {
     setIdCollection,
     setUserC,
     setCart,getCompany } = dataSlice.actions;
-export const store = configureStore({
-    reducer: {
-        data: dataSlice.reducer
-    }
-});
+
+export default dataSlice.reducer;

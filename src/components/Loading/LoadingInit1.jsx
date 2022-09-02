@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux/es/exports';
 
 const LoadingInit1 = () => {
-    const data1 = useSelector((state)=>state.data);
+    const data1 = useSelector((state)=>state);
     const data = data1.company
     return (
         <div>

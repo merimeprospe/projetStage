@@ -9,10 +9,10 @@ import HandleMessages from '../components/HandleMessages';
 
 const Commande = ({ history }) => {
   const { isAuthenticated } = useContext(Auth);
-  const data = useSelector((state) => state.data);
+  const data = useSelector((state) => state);
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(false);
-  const [mode, setMode] = useState('cache');
+  const [mode, setMode] = useState('Cash');
   const [adresse, setAdresse] = useState();
   const [service, setService] = useState();
   const [phone, setPhone] = useState();
@@ -66,16 +66,18 @@ const Commande = ({ history }) => {
           }),
     }
     try {
+      console.log('commande = ', commande)
       axios
       .post(
         data.api + 'commands',
         commande,
         headers
       )
-      .then((res) => (
-        dispatch(setCommande(res)),
+      .then((res) => {
+        alert(res.status)
+        dispatch(setCommande(res))
         payement(res.data)
-      )).catch((err) => {
+      }).catch((err) => {
         console.log('errorccc',err)
         setMessageComponent(
           <HandleMessages
@@ -104,17 +106,17 @@ const Commande = ({ history }) => {
         axios
           .post(
             'https://api.genuka.com/2021-10/payments/mobilemoney/charge',body,headers
-          ).then((res) => (
+          ).then((res) => {
             setMessageComponent(
               <HandleMessages
                 message={'votre commande a été éffectué avec succes'}
                 error={false}
                 setCompMess={setMessageComponent}
               />
-            ),
-            dispatch(setCart()),
+            )
+            dispatch(setCart())
             setLoader(false)
-          )).catch((err) =>{
+          }).catch((err) =>{
             if(err.message==='Request failed with status code 500'){
               setMessageComponent(
                 <HandleMessages
@@ -327,7 +329,10 @@ const Commande = ({ history }) => {
                       <>
                         <div
                           class="table_p"
-                          onClick={() => (setMode('mobilemoney'),setService('orange'))}
+                          onClick={() => {
+                            setMode('mobilemoney')
+                            setService('orange')
+                          }}
                         >
                           <img
                             src="images/orange (1).png"
@@ -342,7 +347,10 @@ const Commande = ({ history }) => {
                         </div>
                         <div
                           class="table_p"
-                          onClick={() => (setMode('mobilemoney'),setService('MTN'))}
+                          onClick={() => {
+                            setMode('mobilemoney')
+                          setService('MTN')
+                          }}
                         >
                           <img
                             src="images/mtn.jpg"

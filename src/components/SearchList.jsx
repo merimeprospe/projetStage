@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { setProduct } from '../store/DataSlice';
 
 const SearchList = () => {
-  const data = useSelector((state) => state.data);
+  const data = useSelector((state) => state);
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
   return (

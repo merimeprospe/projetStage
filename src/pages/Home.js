@@ -8,7 +8,7 @@ import { addProductcart, addtotalcart, setCollections, setCurent, setProduct, se
 
 
 const Home = () => {
-    const data1 = useSelector((state)=>state.data);
+    const data1 = useSelector((state)=>state);
     const dispatch = useDispatch();
     let collections = data1.collections
     const data = data1.company
@@ -92,6 +92,7 @@ const Home = () => {
                 //setProduit(res.data.products.data)
                 console.log()
                 dispatch(setProducts(res.data.products))
+                console.log('data.PRODUIT11111',res.data.products)
                 document.getElementById('cat-' + data1.curent)?.classList.remove("active");
                dispatch(setCurent(id))
                 //console.log("change 2"+data1.curent)
@@ -193,6 +194,7 @@ const Home = () => {
       
    }, 2000);
    console.log('data.id',data1.collections)
+   console.log('data.PRODUIT',data1.products)
   // console.log(data1.cart.products.product)
     return data1.collections === null? <LoadingInit1/> : data1.products === null? <LoadingInit1/> :(
         <div>
