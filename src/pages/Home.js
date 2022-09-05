@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { NavLink } from "react-router-dom"
+import HandleMessages from '../components/HandleMessages';
 import LoadingInit1 from '../components/Loading/LoadingInit1';
 
 import { addProductcart, addtotalcart, setCollections, setCurent, setProduct, setProducts, setquantutycart } from '../store/DataSlice';
@@ -14,6 +15,7 @@ const Home = () => {
     const data = data1.company
     const [conten, setConten] = useState(false);
     let total_collection = []
+    const [MessageComponent, setMessageComponent] = useState(null);
     //const [collection, setCollection] = useState([]);
     //const [produits, setProduit] = useState([]);
     const [produits1, setProduit1] = useState([]);
@@ -87,45 +89,95 @@ const Home = () => {
     };
     function ProduitCollections(id) {
         setConten(true)
-        axios
+        try {
+            dispatch(setCurent(null))
+            axios
             .get(data1.api + "companies/" + data.id + "/collections/" + id)
             .then((res) => {
-                //setProduit(res.data.products.data)
-                console.log()
                 dispatch(setProducts(res.data.products))
-                console.log('data.PRODUIT11111',res.data.products)
-                document.getElementById('cat-' + data1.curent)?.classList.remove("active");
+                if(data1===null)
+                {    
+                    document.getElementById('cat-' + data1.curent)?.classList.remove("active");
+                    document.getElementById('cat-' + id)?.classList.add("active");
+                }
+                setConten(false)
                 dispatch(setCurent(id))
-                //console.log("change 2"+data1.curent)
-                document.getElementById('cat-' + id)?.classList.add("active");
+            }).catch((err) => {
+                if(err.message==='Network Error')
+                {
+                    setMessageComponent(
+                        <HandleMessages
+                          message={'pas de connexion internet'}
+                          error={true}
+                          setCompMess={setMessageComponent}
+                        />
+                      );
+                }else{
+                    setMessageComponent(
+                        <HandleMessages
+                          message={err.message}
+                          error={true}
+                          setCompMess={setMessageComponent}
+                        />
+                      );
+                }
+                document.getElementById('cat-' + data1.curent)?.classList.add("active");
                 setConten(false)
             });
 
-        axios
-            .get(data1.api + "companies/" + data.id + "/collections/" + id)
-            .then((res) => {
-                setProduit1(res.data.products.links)
-                if (res.data.products.links.next == null) {
-                    document.getElementById("next")?.classList.add("disabled");
-                    document.getElementById("disabled")?.classList.add("active");
-                }
-                if (res.data.products.links.next != null) {
-                    document.getElementById("next")?.classList.remove("disabled");
-                    document.getElementById("disabled")?.classList.remove("active");
-                }
-                if (res.data.products.links.prev != null) {
-                    document.getElementById("disabled")?.classList.remove("disabled");
-                }
-                if (res.data.products.links.prev == null) {
-                    document.getElementById("disabled")?.classList.add("disabled");
-                }
-            });
+            axios
+                .get(data1.api + "companies/" + data.id + "/collections/" + id)
+                .then((res) => {
+                    setProduit1(res.data.products.links)
+                    if (res.data.products.links.next == null) {
+                        document.getElementById("next")?.classList.add("disabled");
+                        document.getElementById("disabled")?.classList.add("active");
+                    }
+                    if (res.data.products.links.next != null) {
+                        document.getElementById("next")?.classList.remove("disabled");
+                        document.getElementById("disabled")?.classList.remove("active");
+                    }
+                    if (res.data.products.links.prev != null) {
+                        document.getElementById("disabled")?.classList.remove("disabled");
+                    }
+                    if (res.data.products.links.prev == null) {
+                        document.getElementById("disabled")?.classList.add("disabled");
+                    }
+                });
+        } catch (error) {
+            console.log('error',error)
+        }
+        
     }
     function Productpagination(url) {
+        setConten(true)
         axios
             .get(url)
-            .then((res) => dispatch(setProducts(res.data.products))
-            );
+            .then((res) => {
+                dispatch(setProducts(res.data.products))
+                setConten(false)
+            }).catch((err) => {
+                if(err.message==='Network Error')
+                {
+                    setMessageComponent(
+                        <HandleMessages
+                          message={'pas de connexion internet'}
+                          error={true}
+                          setCompMess={setMessageComponent}
+                        />
+                      );
+                }else{
+                    setMessageComponent(
+                        <HandleMessages
+                          message={err.message}
+                          error={true}
+                          setCompMess={setMessageComponent}
+                        />
+                      );
+                }
+                document.getElementById('cat-' + data1.curent)?.classList.add("active");
+                setConten(false)
+            });
         axios
             .get(url)
             .then((res) => {
@@ -155,6 +207,7 @@ const Home = () => {
             p.quantity = 1
             p.id = pr.id
             p.price = pr.price
+            p.stocks = pr.stocks
             p.image = pr.medias
             p.variante = [{
                 taille: null,
@@ -175,6 +228,7 @@ const Home = () => {
                 p.quantity = 1
                 p.id = pr.id
                 p.price = pr.price
+                p.stocks = pr.stocks
                 p.image = pr.medias
                 p.variante = {
                     taille: null,
@@ -198,6 +252,7 @@ const Home = () => {
   // console.log(data1.cart.products.product)
     return data1.collections === null? <LoadingInit1/> : data1.products === null? <LoadingInit1/> :(
         <div>
+            {MessageComponent}
             <section className="section container-fluid">
                 <div className="row">
                     <div>
@@ -233,11 +288,11 @@ const Home = () => {
                                     .map(collection => (
                                         <li className="list"><button className="btn but_coll" id={'cat-' + collection.id} key={collection.id} onClick={(e) =>{ 
                                             
-                                            dispatch(setCurent(null))
+                                            //dispatch(setCurent(null))
                                             //console.log("change 3"+data1.curent)
                                             document.getElementById('cat-' + data1.curent)?.classList.remove("active");
                                             document.querySelectorAll('active')[0]?.classList.remove("active");
-                                            dispatch(setCurent(null))
+                                            //dispatch(setCurent(null))
                                             ProduitCollections(collection.id)}}><NavLink to="/" className="ron3">{collection.name}</NavLink></button></li>
                                     ))}
 

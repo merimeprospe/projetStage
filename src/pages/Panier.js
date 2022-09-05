@@ -38,6 +38,7 @@ const Panier = () => {
                                 )}
                                 {data.cart.products.product.map( (product , index) => (
                                      prix = prix + product.price*product.quantity,
+                                     console.log('product',product),
                                      <>
                                      <div class="row">
                                      <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
@@ -60,8 +61,9 @@ const Panier = () => {
                                      <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                                          {/* <!-- Data --> */}
                                          <p><strong>{product.name}</strong></p>
-                                         <p>Color: blue</p>
-                                         <p>Size: M</p>
+                                         <p>prix: {product.price} {data.company.currency.symbol}</p>
+                                         {product.stocks>0 &&(<p>en Stock</p>)||(<p>en rupture de Stock</p>)}
+                                         
                                          <button type="button" class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
                                          title="Remove item" onClick={() => dispatch(deletproductcart(index))}>
                                          <i class="fas fa-trash" ></i>
@@ -90,7 +92,7 @@ const Panier = () => {
  
                                          {/* <!-- Price --> */}
                                          <p class="text-start text-md-center">
-                                         <strong>{product.price} {data.company.currency.symbol}</strong>
+                                         <strong>{product.price*product.quantity} {data.company.currency.symbol}</strong>
                                          </p>
                                          {/* <!-- Price --> */}
                                      </div>

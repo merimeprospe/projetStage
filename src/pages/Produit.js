@@ -47,6 +47,7 @@ const Produit = () => {
         p.id = pr.id
         p.price = pr.price
         p.image = pr.medias
+        p.stocks = pr.stocks
         p.variante = [{
             taille: null,
             couleur: null,
@@ -134,11 +135,13 @@ const Produit = () => {
                     <div className="titre_p d1 overflows">
                         {
                             data.product.medias.length > 0 ?
-                            <div className="d2 flot">
-                                <div style={{height: '5px'}}>
+                            data.product.medias.map(image => (
+                                <div className="d2 flot">
+                                    <div style={{height: '5px'}}>
+                                    </div>
+                                    <img  alt="" className="imge1" id={image.link} onClick={(e) => Image(e.target.id)} src={image.link} />
                                 </div>
-                                <img  alt="" className="imge1" id={data.product.medias[0].link} onClick={(e) => Image(e.target.id)} src={data.product.medias[0].link} />
-                            </div>
+                            )) 
                                 :
                             <div className="d2 flot">
                                 <div style={{height: '5px'}}>
@@ -155,7 +158,7 @@ const Produit = () => {
                         ))}  */}
                     </div>
                     <div className="bloc1" style={{width: '70%'}}>
-                        <div className='imge2'>
+                        <div className='av'>
                         {
                             data.product.medias.length > 0 ?
                                 <img  className="d-block w-100 imge2" alt="..." id="image_produit" src={data.product.medias[0].thumb} />
@@ -196,7 +199,7 @@ const Produit = () => {
                             </div>
                             <div className="d">
                                 <p className="product-price1" style={{textAlign: 'left'}}>{data.product.price} {data.company.currency.symbol}</p>
-                                <span style={{marginLeft: '30px' }}>Stock:a {data.product.stocks}</span>
+                                <span style={{marginLeft: '30px' }}>Stock : a {data.product.stocks}</span>
                             </div>
                             <div className='overflows' style={{height: '200px', marginBottom: '20px'}}>
                                 <p style={{ textAlign: 'justify', color: 'white' }}  id='desc'>	

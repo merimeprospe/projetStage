@@ -24,7 +24,7 @@ async function getCompany() {
         //dispatch(setLogin("company"));  https://api.genuka.com/2021-10/companies/byurl?url=http://localhost:3000/
        
         axios
-          .get(data.api + "companies/details/430" )//")// /details/430")
+          .get(data.api + "companies/details/2" )//")// /details/430")
           .then((response) => {
             //console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP')
               if (response.status === 200) {

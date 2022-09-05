@@ -79,13 +79,24 @@ const Commande = ({ history }) => {
         payement(res.data)
       }).catch((err) => {
         console.log('errorccc',err)
-        setMessageComponent(
-          <HandleMessages
-            message={err.message}
-            error={true}
-            setCompMess={setMessageComponent}
-          />
-        );
+        if(err.message==='Network Error')
+                {
+                    setMessageComponent(
+                        <HandleMessages
+                          message={'pas de connexion internet'}
+                          error={true}
+                          setCompMess={setMessageComponent}
+                        />
+                      );
+                }else{
+                    setMessageComponent(
+                        <HandleMessages
+                          message={err.message}
+                          error={true}
+                          setCompMess={setMessageComponent}
+                        />
+                      );
+                }
         setLoader(false)
       })
       

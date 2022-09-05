@@ -145,13 +145,25 @@ const Navigation = () => {
             )
           )
           .catch((err) => {
-            setMessageComponent(
-              <HandleMessages
-                message={err.message}
-                error={true}
-                setCompMess={setMessageComponent}
-              />
-            );
+            if(err.message==='Network Error')
+                {
+                    setMessageComponent(
+                        <HandleMessages
+                          message={'pas de connexion internet'}
+                          error={true}
+                          setCompMess={setMessageComponent}
+                        />
+                      );
+                }else{
+                    setMessageComponent(
+                        <HandleMessages
+                          message={err.message}
+                          error={true}
+                          setCompMess={setMessageComponent}
+                        />
+                      );
+                }
+                setConten(false)
             setLoader1(true);
             setConten(false);
           });
